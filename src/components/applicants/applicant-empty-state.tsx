@@ -1,3 +1,16 @@
 import { SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-export function ApplicantEmptyState({ onClear }: { onClear: () => void }) { return <div className="rounded-2xl border border-dashed p-10 text-center"><SearchX className="mx-auto size-9 text-muted-foreground" /><h2 className="mt-3 font-semibold">No applicants found.</h2><p className="mt-1 text-sm text-muted-foreground">Try changing your search or filters.</p><Button className="mt-5" variant="outline" onClick={onClear}>Clear search and filters</Button></div>; }
+export function ApplicantEmptyState({ onClear }: { onClear: () => void }) {
+  return (
+    <div className="rounded-2xl border border-dashed p-10 text-center">
+      <SearchX className="mx-auto size-9 text-muted-foreground" />
+      <h2 className="mt-3 font-semibold">No applicants found.</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Try changing your search or filters.
+      </p>
+      <Button className="mt-5" variant="outline" onClick={onClear}>
+        Clear search and filters
+      </Button>
+    </div>
+  );
+}

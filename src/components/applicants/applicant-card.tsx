@@ -4,4 +4,52 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/applicants/status-badge";
 import type { Applicant } from "@/types/applicant";
 import { capitalize, formatDate } from "@/utils/format";
-export function ApplicantCards({ applicants, onSelect }: { applicants: Applicant[]; onSelect: (id: string) => void }) { return <div className="grid gap-3 md:hidden">{applicants.map((applicant) => <Card key={applicant.id}><CardContent className="p-4"><div className="flex items-start justify-between gap-3"><div><p className="font-semibold">{applicant.fullName}</p><p className="mt-1 text-sm text-muted-foreground">{applicant.email}</p></div><StatusBadge status={applicant.status} /></div><dl className="mt-4 grid grid-cols-2 gap-3 text-sm"><div><dt className="text-muted-foreground">Country</dt><dd>{applicant.country}</dd></div><div><dt className="text-muted-foreground">Position</dt><dd>{capitalize(applicant.track)}</dd></div><div><dt className="text-muted-foreground">Applied</dt><dd>{formatDate(applicant.applicationDate)}</dd></div></dl><Button className="mt-4 w-full" variant="outline" onClick={() => onSelect(applicant.id)}><Eye className="size-4" />View details</Button></CardContent></Card>)}</div>; }
+export function ApplicantCards({
+  applicants,
+  onSelect,
+}: {
+  applicants: Applicant[];
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="grid gap-3 md:hidden">
+      {applicants.map((applicant) => (
+        <Card key={applicant.id}>
+          <CardContent className="p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="font-semibold">{applicant.fullName}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {applicant.email}
+                </p>
+              </div>
+              <StatusBadge status={applicant.status} />
+            </div>
+            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt className="text-muted-foreground">Country</dt>
+                <dd>{applicant.country}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Position</dt>
+                <dd>{capitalize(applicant.track)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Applied</dt>
+                <dd>{formatDate(applicant.applicationDate)}</dd>
+              </div>
+            </dl>
+            <Button
+              className="mt-4 w-full"
+              variant="outline"
+              onClick={() => onSelect(applicant.id)}
+            >
+              <Eye className="size-4" />
+              View details
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}

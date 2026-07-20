@@ -5,4 +5,56 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApplicantDetails } from "@/components/applicants/applicant-details";
 import { useApplicant } from "@/hooks/use-applicant";
-export function ApplicantDetailsDrawer({ applicantId, onOpenChange }: { applicantId: string | null; onOpenChange: (open: boolean) => void }) { const query = useApplicant(applicantId); return <Sheet open={Boolean(applicantId)} onOpenChange={onOpenChange}><SheetContent side="right" className="w-full overflow-y-auto p-6 pt-14 sm:max-w-xl"><p className="mb-5 text-sm font-medium text-primary">Applicant details</p>{query.isLoading ? <div className="space-y-5">{Array.from({ length: 5 }, (_, index) => <div key={index} className="space-y-2"><Skeleton className="h-4 w-28" /><Skeleton className="h-5 w-full" /><Skeleton className="h-5 w-2/3" /></div>)}</div> : query.isError ? <div className="py-16 text-center"><AlertCircle className="mx-auto size-8 text-destructive" /><h2 className="mt-3 font-semibold">Unable to load applicant.</h2><p className="mt-1 text-sm text-muted-foreground">The applicant may no longer be available.</p><Button className="mt-5" variant="outline" onClick={() => void query.refetch()}><LoaderCircle className="size-4" />Try again</Button></div> : query.data ? <ApplicantDetails key={`${query.data.id}-${query.data.status}`} applicant={query.data} /> : null}</SheetContent></Sheet>; }
+export function ApplicantDetailsDrawer({
+  applicantId,
+  onOpenChange,
+}: {
+  applicantId: string | null;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const query = useApplicant(applicantId);
+  return (
+    <Sheet open={Boolean(applicantId)} onOpenChange={onOpenChange}>
+      <SheetContent
+        side="right"
+        className="w-full overflow-y-auto p-6 pt-14 sm:max-w-xl"
+      >
+        <p className="mb-5 text-sm font-medium text-primary">
+          Applicant details
+        </p>
+        {query.isLoading ? (
+          <div className="space-y-5">
+            {Array.from({ length: 5 }, (_, index) => (
+              <div key={index} className="space-y-2">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-2/3" />
+              </div>
+            ))}
+          </div>
+        ) : query.isError ? (
+          <div className="py-16 text-center">
+            <AlertCircle className="mx-auto size-8 text-destructive" />
+            <h2 className="mt-3 font-semibold">Unable to load applicant.</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              The applicant may no longer be available.
+            </p>
+            <Button
+              className="mt-5"
+              variant="outline"
+              onClick={() => void query.refetch()}
+            >
+              <LoaderCircle className="size-4" />
+              Try again
+            </Button>
+          </div>
+        ) : query.data ? (
+          <ApplicantDetails
+            key={`${query.data.id}-${query.data.status}`}
+            applicant={query.data}
+          />
+        ) : null}
+      </SheetContent>
+    </Sheet>
+  );
+}

@@ -1,5 +1,35 @@
 import { CheckCircle2, Clock3, CircleDashed, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { ApplicantStatus } from "@/types/applicant";
-const config = { pending: { label: "Pending", icon: Clock3, className: "bg-amber-500/15 text-amber-700" }, shortlisted: { label: "Reviewing", icon: CircleDashed, className: "bg-blue-500/15 text-blue-700" }, accepted: { label: "Accepted", icon: CheckCircle2, className: "bg-emerald-500/15 text-emerald-700" }, rejected: { label: "Rejected", icon: XCircle, className: "bg-rose-500/15 text-rose-700" } } as const;
-export function StatusBadge({ status }: { status: ApplicantStatus }) { const item = config[status]; const Icon = item.icon; return <Badge className={`gap-1 border-0 ${item.className}`}><Icon className="size-3.5" />{item.label}</Badge>; }
+const config = {
+  pending: {
+    label: "Pending",
+    icon: Clock3,
+    className: "bg-amber-500/15 text-amber-700",
+  },
+  shortlisted: {
+    label: "Reviewing",
+    icon: CircleDashed,
+    className: "bg-blue-500/15 text-blue-700",
+  },
+  accepted: {
+    label: "Accepted",
+    icon: CheckCircle2,
+    className: "bg-emerald-500/15 text-emerald-700",
+  },
+  rejected: {
+    label: "Rejected",
+    icon: XCircle,
+    className: "bg-rose-500/15 text-rose-700",
+  },
+} as const;
+export function StatusBadge({ status }: { status: ApplicantStatus }) {
+  const item = config[status];
+  const Icon = item.icon;
+  return (
+    <Badge className={`gap-1 border-0 ${item.className}`}>
+      <Icon className="size-3.5" />
+      {item.label}
+    </Badge>
+  );
+}
