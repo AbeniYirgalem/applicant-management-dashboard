@@ -1,6 +1,7 @@
 "use client";
 
 import { LogOut, Menu } from "lucide-react";
+import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   AlertDialog,
@@ -31,12 +32,16 @@ function initials(name?: string) {
 
 export function Navbar() {
   const { user, logout, isLoading } = useAuth();
+  const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[96rem] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <Sheet>
+          <Sheet
+            open={isMobileNavigationOpen}
+            onOpenChange={setIsMobileNavigationOpen}
+          >
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
@@ -48,7 +53,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-4 pt-16">
-              <Sidebar />
+              <Sidebar onNavigate={() => setIsMobileNavigationOpen(false)} />
             </SheetContent>
           </Sheet>
           <div className="flex size-10 items-center justify-center rounded-xl bg-primary font-bold text-primary-foreground">
