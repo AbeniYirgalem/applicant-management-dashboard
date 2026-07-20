@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/layout/sidebar";
+import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { useAuth } from "@/hooks/use-auth";
 
 function initials(name?: string) {
@@ -78,6 +79,7 @@ export function Navbar() {
               {initials(user?.fullName)}
             </AvatarFallback>
           </Avatar>
+          <ThemeSwitcher />
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
