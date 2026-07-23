@@ -1,8 +1,17 @@
 import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { StatusBadge } from "@/components/applicants/status-badge";
 import type { Applicant } from "@/types/applicant";
-import { formatDate, capitalize } from "@/utils/format";
+import { capitalize, formatDate } from "@/utils/format";
+
 export function ApplicantTable({
   applicants,
   onSelect,
@@ -11,52 +20,72 @@ export function ApplicantTable({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="hidden overflow-hidden rounded-2xl border bg-card md:block">
-      <table className="w-full text-left text-sm">
-        <thead className="border-b bg-muted/40 text-muted-foreground">
-          <tr>
-            {["Applicant", "Country", "Position", "Status", "Applied", ""].map(
-              (heading, index) => (
-                <th key={heading || index} className="px-5 py-3 font-medium">
-                  {heading}
-                </th>
-              ),
-            )}
-          </tr>
-        </thead>
-        <tbody>
+    <div className="hidden overflow-hidden rounded-lg border bg-card md:block">
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead className="h-9 px-4 text-xs font-medium uppercase tracking-wide">
+              Applicant
+            </TableHead>
+            <TableHead className="h-9 px-4 text-xs font-medium uppercase tracking-wide">
+              Country
+            </TableHead>
+            <TableHead className="h-9 px-4 text-xs font-medium uppercase tracking-wide">
+              Position
+            </TableHead>
+            <TableHead className="h-9 px-4 text-xs font-medium uppercase tracking-wide">
+              Status
+            </TableHead>
+            <TableHead className="h-9 px-4 text-xs font-medium uppercase tracking-wide">
+              Applied
+            </TableHead>
+            <TableHead className="h-9 w-20 px-4" />
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {applicants.map((applicant) => (
-            <tr
+            <TableRow
               key={applicant.id}
-              className="border-b last:border-0 hover:bg-muted/30"
+              className="cursor-pointer transition-colors duration-150"
+              onClick={() => onSelect(applicant.id)}
             >
-              <td className="px-5 py-4">
-                <p className="font-medium">{applicant.fullName}</p>
-                <p className="text-muted-foreground">{applicant.email}</p>
-              </td>
-              <td className="px-5 py-4">{applicant.country}</td>
-              <td className="px-5 py-4">{capitalize(applicant.track)}</td>
-              <td className="px-5 py-4">
+              <TableCell className="px-4 py-2.5">
+                <p className="font-medium leading-tight">{applicant.fullName}</p>
+                <p className="text-xs text-muted-foreground">
+                  {applicant.email}
+                </p>
+              </TableCell>
+              <TableCell className="px-4 py-2.5 text-muted-foreground">
+                {applicant.country}
+              </TableCell>
+              <TableCell className="px-4 py-2.5">
+                {capitalize(applicant.track)}
+              </TableCell>
+              <TableCell className="px-4 py-2.5">
                 <StatusBadge status={applicant.status} />
-              </td>
-              <td className="px-5 py-4 text-muted-foreground">
+              </TableCell>
+              <TableCell className="px-4 py-2.5 text-muted-foreground">
                 {formatDate(applicant.applicationDate)}
-              </td>
-              <td className="px-5 py-4">
+              </TableCell>
+              <TableCell className="px-4 py-2.5">
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => onSelect(applicant.id)}
+                  className="h-8 px-2"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onSelect(applicant.id);
+                  }}
                   aria-label={`View ${applicant.fullName}`}
                 >
-                  <Eye className="size-4" />
+                  <Eye className="size-3.5" />
                   View
                 </Button>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

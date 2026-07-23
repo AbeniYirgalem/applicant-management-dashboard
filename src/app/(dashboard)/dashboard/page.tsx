@@ -7,15 +7,19 @@ import {
   UsersRound,
   XCircle,
 } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { ErrorState } from "@/components/dashboard/error-state";
 import { StatisticCard } from "@/components/dashboard/statistic-card";
 import { useDashboardStats } from "@/hooks/use-dashboard-stats";
+
 export default function DashboardPage() {
   const { data, isLoading, isError, refetch } = useDashboardStats();
+
   if (isError) return <ErrorState onRetry={() => void refetch()} />;
   if (!isLoading && (!data || data.totalApplicants === 0))
     return <EmptyState />;
+
   const status = data?.byStatus;
   const cards = [
     {
@@ -25,7 +29,7 @@ export default function DashboardPage() {
       icon: UsersRound,
     },
     {
-      title: "Pending Applications",
+      title: "Pending",
       value: status?.pending ?? 0,
       description: "Awaiting initial review",
       icon: Clock3,
@@ -55,26 +59,21 @@ export default function DashboardPage() {
       icon: XCircle,
     },
   ];
+
+  const today = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(new Date());
+
   return (
-    <section className="space-y-8">
-      <div>
-        <p className="text-sm font-medium text-primary">Overview</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
-          Welcome back, Admin
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-          Manage internship applicants and track application progress from one
-          place.
-        </p>
-        <p className="mt-3 text-sm text-muted-foreground">
-          {new Intl.DateTimeFormat("en-US", {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-          }).format(new Date())}
-        </p>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <section className="space-y-5">
+      <PageHeader
+        title="Overview"
+        description="Track application volume and pipeline status."
+        meta={today}
+      />
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {cards.map((card) => (
           <StatisticCard key={card.title} {...card} isLoading={isLoading} />
         ))}

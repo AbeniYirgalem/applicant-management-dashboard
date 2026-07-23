@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { loginSchema, type LoginFormValues } from "@/schemas/auth.schema";
 import { getAuthErrorMessage } from "@/services/axios";
@@ -43,21 +44,21 @@ export default function LoginPage() {
   const submitting = isLoading || form.formState.isSubmitting;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+    <div className="space-y-5">
+      <div className="space-y-1">
+        <h1 className="text-xl font-semibold tracking-tight">Sign in</h1>
         <p className="text-sm text-muted-foreground">
-          Sign in to manage your applicant workspace.
+          Access your applicant workspace.
         </p>
       </div>
       {error ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+          className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive"
         >
           <p className="font-medium">{error.title ?? error.message}</p>
           {error.title && error.message ? (
-            <p className="mt-1">{error.message}</p>
+            <p className="mt-0.5 text-xs">{error.message}</p>
           ) : null}
         </div>
       ) : null}
@@ -66,38 +67,35 @@ export default function LoginPage() {
         onSubmit={form.handleSubmit(onSubmit)}
         noValidate
       >
-        <label className="block space-y-2">
-          <span className="text-sm font-medium">Email address</span>
-          <div className="relative">
-            <Mail className="pointer-events-none absolute left-3 top-3 size-5 text-muted-foreground" />
-            <Input
-              className="pl-10"
-              type="email"
-              autoComplete="email"
-              placeholder="Enter your email address"
-              aria-invalid={Boolean(form.formState.errors.email)}
-              {...form.register("email")}
-            />
-          </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@company.com"
+            aria-invalid={Boolean(form.formState.errors.email)}
+            {...form.register("email")}
+          />
           {form.formState.errors.email ? (
-            <p className="text-sm text-destructive">
+            <p className="text-xs text-destructive">
               {form.formState.errors.email.message}
             </p>
           ) : null}
-        </label>
-        <label className="block space-y-2">
-          <span className="text-sm font-medium">Password</span>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="password">Password</Label>
           <div className="relative">
-            <LockKeyhole className="pointer-events-none absolute left-3 top-3 size-5 text-muted-foreground" />
             <Input
-              className="pl-10 pr-12"
+              id="password"
+              className="pr-10"
               type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               aria-invalid={Boolean(form.formState.errors.password)}
               {...form.register("password")}
             />
             <Button
-              className="absolute right-0 top-0"
+              className="absolute right-0 top-0 size-9"
               type="button"
               variant="ghost"
               size="icon"
@@ -105,20 +103,20 @@ export default function LoginPage() {
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
-                <EyeOff className="size-5" />
+                <EyeOff className="size-3.5" />
               ) : (
-                <Eye className="size-5" />
+                <Eye className="size-3.5" />
               )}
             </Button>
           </div>
           {form.formState.errors.password ? (
-            <p className="text-sm text-destructive">
+            <p className="text-xs text-destructive">
               {form.formState.errors.password.message}
             </p>
           ) : null}
-        </label>
+        </div>
         <Button className="w-full" type="submit" disabled={submitting}>
-          {submitting ? <LoaderCircle className="size-4 animate-spin" /> : null}
+          {submitting ? <LoaderCircle className="size-3.5 animate-spin" /> : null}
           {submitting ? "Signing in..." : "Sign in"}
         </Button>
       </form>

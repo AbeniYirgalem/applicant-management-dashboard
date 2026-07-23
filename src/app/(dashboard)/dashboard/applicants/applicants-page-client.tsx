@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { UsersRound } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ApplicantCards } from "@/components/applicants/applicant-card";
 import { ApplicantDetailsDrawer } from "@/components/applicants/applicant-details-drawer";
@@ -9,8 +8,9 @@ import { ApplicantPagination } from "@/components/applicants/applicant-paginatio
 import { ApplicantSearch } from "@/components/applicants/applicant-search";
 import { ApplicantSkeleton } from "@/components/applicants/applicant-skeleton";
 import { ApplicantTable } from "@/components/applicants/applicant-table";
-import { ErrorState } from "@/components/dashboard/error-state";
 import { ApplicantEmptyState } from "@/components/applicants/applicant-empty-state";
+import { PageHeader } from "@/components/layout/page-header";
+import { ErrorState } from "@/components/dashboard/error-state";
 import { useApplicants } from "@/hooks/use-applicants";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import type {
@@ -40,6 +40,7 @@ const validSort = new Set<SortBy>([
   "status",
   "track",
 ]);
+
 export function ApplicantsPageClient() {
   const router = useRouter();
   const pathname = usePathname();
@@ -100,28 +101,19 @@ export function ApplicantsPageClient() {
   };
   if (query.isError) return <ErrorState onRetry={() => void query.refetch()} />;
   const hasData = Boolean(query.data?.data.length);
+
   return (
-    <section className="space-y-6">
-      <div>
-        <div className="flex items-center gap-2 text-sm font-medium text-primary">
-          <UsersRound className="size-4" />
-          Applicant management
-        </div>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-          Applicants
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Search, filter, and review internship applications.
-        </p>
-      </div>
-      <div className="space-y-3 rounded-2xl border bg-card p-4">
-        <div className="flex flex-col gap-3 lg:flex-row">
-          <ApplicantSearch
-            value={search}
-            onChange={setSearch}
-            isSearching={search !== deferredSearch || query.isFetching}
-          />
-        </div>
+    <section className="space-y-5">
+      <PageHeader
+        title="Applicants"
+        description="Search, filter, and review internship applications."
+      />
+      <div className="space-y-3 rounded-lg border bg-card p-3.5">
+        <ApplicantSearch
+          value={search}
+          onChange={setSearch}
+          isSearching={search !== deferredSearch || query.isFetching}
+        />
         <ApplicantFilters
           status={filters.status}
           track={filters.track}

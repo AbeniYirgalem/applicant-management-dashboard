@@ -9,6 +9,7 @@ import {
   type SortBy,
   type SortOrder,
 } from "@/types/applicant";
+
 interface Props {
   status?: ApplicantStatus;
   track?: ApplicantTrack;
@@ -17,6 +18,7 @@ interface Props {
   onChange: (key: string, value?: string) => void;
   onClear: () => void;
 }
+
 export function ApplicantFilters({
   status,
   track,
@@ -28,11 +30,15 @@ export function ApplicantFilters({
   const active = Boolean(
     status || track || sortBy !== "applicationDate" || sortOrder !== "desc",
   );
+
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <SlidersHorizontal className="size-4 text-muted-foreground" />
+      <SlidersHorizontal
+        className="size-3.5 text-muted-foreground"
+        aria-hidden
+      />
       <select
-        className="h-11 rounded-xl border bg-background px-3 text-sm"
+        className="native-select"
         value={status ?? ""}
         onChange={(e) => onChange("status", e.target.value || undefined)}
         aria-label="Filter by status"
@@ -40,12 +46,14 @@ export function ApplicantFilters({
         <option value="">All statuses</option>
         {APPLICANT_STATUSES.map((item) => (
           <option key={item} value={item}>
-            {item[0].toUpperCase() + item.slice(1)}
+            {item === "shortlisted"
+              ? "Review"
+              : item[0].toUpperCase() + item.slice(1)}
           </option>
         ))}
       </select>
       <select
-        className="h-11 rounded-xl border bg-background px-3 text-sm"
+        className="native-select"
         value={track ?? ""}
         onChange={(e) => onChange("track", e.target.value || undefined)}
         aria-label="Filter by position"
@@ -58,7 +66,7 @@ export function ApplicantFilters({
         ))}
       </select>
       <select
-        className="h-11 rounded-xl border bg-background px-3 text-sm"
+        className="native-select"
         value={sortBy}
         onChange={(e) => onChange("sortBy", e.target.value)}
         aria-label="Sort by"
@@ -75,12 +83,12 @@ export function ApplicantFilters({
           onChange("sortOrder", sortOrder === "asc" ? "desc" : "asc")
         }
       >
-        {sortOrder === "asc" ? "Ascending ↑" : "Descending ↓"}
+        {sortOrder === "asc" ? "Asc" : "Desc"}
       </Button>
       {active ? (
         <Button type="button" variant="ghost" size="sm" onClick={onClear}>
-          <X className="size-4" />
-          Clear filters
+          <X className="size-3.5" />
+          Clear
         </Button>
       ) : null}
     </div>

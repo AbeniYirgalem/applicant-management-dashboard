@@ -1,4 +1,5 @@
 import { APPLICANT_STATUSES, type ApplicantStatus } from "@/types/applicant";
+
 export function StatusSelector({
   value,
   onChange,
@@ -9,10 +10,12 @@ export function StatusSelector({
   disabled?: boolean;
 }) {
   return (
-    <label className="block space-y-2">
-      <span className="text-sm font-medium">Application status</span>
+    <label className="block space-y-1.5">
+      <span className="text-xs font-medium text-muted-foreground">
+        Update status
+      </span>
       <select
-        className="h-11 w-full rounded-xl border bg-background px-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+        className="native-select w-full"
         value={value}
         onChange={(event) => onChange(event.target.value as ApplicantStatus)}
         disabled={disabled}
@@ -20,7 +23,7 @@ export function StatusSelector({
         {APPLICANT_STATUSES.map((status) => (
           <option key={status} value={status}>
             {status === "shortlisted"
-              ? "Reviewing"
+              ? "Review"
               : status[0].toUpperCase() + status.slice(1)}
           </option>
         ))}

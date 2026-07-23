@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/applicants/status-badge";
 import type { Applicant } from "@/types/applicant";
 import { capitalize, formatDate } from "@/utils/format";
+
 export function ApplicantCards({
   applicants,
   onSelect,
@@ -12,39 +13,42 @@ export function ApplicantCards({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="grid gap-3 md:hidden">
+    <div className="grid gap-2.5 md:hidden">
       {applicants.map((applicant) => (
-        <Card key={applicant.id}>
-          <CardContent className="p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="font-semibold">{applicant.fullName}</p>
-                <p className="mt-1 text-sm text-muted-foreground">
+        <Card key={applicant.id} className="shadow-none">
+          <CardContent className="p-3.5">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate font-medium">{applicant.fullName}</p>
+                <p className="truncate text-xs text-muted-foreground">
                   {applicant.email}
                 </p>
               </div>
               <StatusBadge status={applicant.status} />
             </div>
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+            <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
               <div>
                 <dt className="text-muted-foreground">Country</dt>
-                <dd>{applicant.country}</dd>
+                <dd className="mt-0.5">{applicant.country}</dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">Position</dt>
-                <dd>{capitalize(applicant.track)}</dd>
+                <dd className="mt-0.5">{capitalize(applicant.track)}</dd>
               </div>
-              <div>
+              <div className="col-span-2">
                 <dt className="text-muted-foreground">Applied</dt>
-                <dd>{formatDate(applicant.applicationDate)}</dd>
+                <dd className="mt-0.5">
+                  {formatDate(applicant.applicationDate)}
+                </dd>
               </div>
             </dl>
             <Button
-              className="mt-4 w-full"
+              className="mt-3 w-full"
               variant="outline"
+              size="sm"
               onClick={() => onSelect(applicant.id)}
             >
-              <Eye className="size-4" />
+              <Eye className="size-3.5" />
               View details
             </Button>
           </CardContent>

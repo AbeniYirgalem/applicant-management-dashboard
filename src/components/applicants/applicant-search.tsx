@@ -2,6 +2,7 @@
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 export function ApplicantSearch({
   value,
   onChange,
@@ -12,13 +13,16 @@ export function ApplicantSearch({
   isSearching?: boolean;
 }) {
   return (
-    <div className="relative flex-1">
-      <Search className="pointer-events-none absolute left-3 top-3 size-5 text-muted-foreground" />
+    <div className="relative">
+      <Search
+        className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground"
+        aria-hidden
+      />
       <Input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="pl-10 pr-10"
-        placeholder="Search applicants..."
+        className="pl-9 pr-9"
+        placeholder="Search by name or email..."
         aria-label="Search applicants"
       />
       {value ? (
@@ -26,14 +30,17 @@ export function ApplicantSearch({
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute right-0 top-0"
+          className="absolute right-0 top-0 size-9"
           onClick={() => onChange("")}
           aria-label="Clear search"
         >
-          <X className="size-4" />
+          <X className="size-3.5" />
         </Button>
       ) : isSearching ? (
-        <span className="absolute right-3 top-3 size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <span
+          className="absolute right-3 top-1/2 size-3.5 -translate-y-1/2 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-primary"
+          aria-hidden
+        />
       ) : null}
     </div>
   );
